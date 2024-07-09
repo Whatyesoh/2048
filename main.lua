@@ -28,9 +28,9 @@ end
 
 function restartGame()
     board = {}
-    for i = 1,5 do
+    for i = 1,4 do
         table.insert(board,{})
-        for j = 1,5 do
+        for j = 1,4 do
             table.insert(board[#board],{0,0})            
         end
     end
@@ -42,8 +42,8 @@ end
 
 function moveLeft() 
     success = 0
-    for i = 2,5 do
-        for j = 1,5 do
+    for i = 2,4 do
+        for j = 1,4 do
             if (board[i][j][1] > 0) then
                 if (board[i-1][j][1] == 0) then
                     board[i-1][j][1] = board[i][j][1]
@@ -65,19 +65,19 @@ end
 
 function moveRight() 
     success = 0
-    for i = 1,4 do
-        for j = 1,5 do
-            if (board[5-i][j][1] > 0) then
-                if (board[6-i][j][1] == 0) then
-                    board[6-i][j][1] = board[5-i][j][1]
-                    board[5-i][j][1] = 0
+    for i = 1,3 do
+        for j = 1,4 do
+            if (board[4-i][j][1] > 0) then
+                if (board[5-i][j][1] == 0) then
+                    board[5-i][j][1] = board[4-i][j][1]
+                    board[4-i][j][1] = 0
                     success = 1
                 end
-                if (board[6-i][j][1] == board[5-i][j][1] and board[5-i][j][2] == 0 and board[6-i][j][2] == 0) then
-                    board[6-i][j][2] = 1
-                    board[6-i][j][1] = board[6-i][j][1] * 2
-                    score = score + board[5-i][j][1] * 2
-                    board[5-i][j][1] = 0
+                if (board[5-i][j][1] == board[4-i][j][1] and board[4-i][j][2] == 0 and board[5-i][j][2] == 0) then
+                    board[5-i][j][2] = 1
+                    board[5-i][j][1] = board[5-i][j][1] * 2
+                    score = score + board[4-i][j][1] * 2
+                    board[4-i][j][1] = 0
                     success = 1
                 end
             end
@@ -88,8 +88,8 @@ end
 
 function moveUp() 
     success = 0
-    for i = 1,5 do
-        for j = 2,5 do
+    for i = 1,4 do
+        for j = 2,4 do
             if (board[i][j][1] > 0) then
                 if (board[i][j-1][1] == 0) then
                     board[i][j-1][1] = board[i][j][1]
@@ -111,19 +111,19 @@ end
 
 function moveDown() 
     success = 0
-    for i = 1,5 do
-        for j = 1,4 do
-            if (board[i][5-j][1] > 0) then
-                if (board[i][6-j][1] == 0) then
-                    board[i][6-j][1] = board[i][5-j][1]
-                    board[i][5-j][1] = 0
+    for i = 1,4 do
+        for j = 1,3 do
+            if (board[i][4-j][1] > 0) then
+                if (board[i][5-j][1] == 0) then
+                    board[i][5-j][1] = board[i][4-j][1]
+                    board[i][4-j][1] = 0
                     success = 1
                 end
-                if (board[i][6-j][1] == board[i][5-j][1] and board[i][5-j][2] == 0 and board[i][6-j][2] == 0) then
-                    board[i][6-j][2] = 1
-                    board[i][6-j][1] = board[i][6-j][1] * 2
-                    score = score + board[i][5-j][1] * 2
-                    board[i][5-j][1] = 0
+                if (board[i][5-j][1] == board[i][4-j][1] and board[i][4-j][2] == 0 and board[i][5-j][2] == 0) then
+                    board[i][5-j][2] = 1
+                    board[i][5-j][1] = board[i][5-j][1] * 2
+                    score = score + board[i][4-j][1] * 2
+                    board[i][4-j][1] = 0
                     success = 1
                 end
             end
@@ -134,8 +134,8 @@ end
 
 function addRandom() 
     usable = {}
-    for i = 1,5 do
-        for j = 1,5 do
+    for i = 1,4 do
+        for j = 1,4 do
             board[i][j][2] = 0
             if (board[i][j][1] == 0) then
                 table.insert(usable,{i,j})
@@ -148,8 +148,8 @@ function addRandom()
     if (#usable > 1) then
         lose = 1
     end
-    for i = 2,5 do
-        for j = 2,5 do
+    for i = 2,4 do
+        for j = 2,4 do
             if (board[i][j][1] == board[i-1][j][1] or board[i][j][1] == board[i][j-1][1]) then
                 lose = 1
             end
@@ -204,8 +204,8 @@ function love.update(dt)
 end
 
 function love.draw()
-    for i=1,5 do
-        for j = 1,5 do
+    for i=1,4 do
+        for j = 1,4 do
             love.graphics.rectangle("line",(width/2 - (scale * size * 3.5)) + scale * size * i,(height/2 - (scale * size * 3.5)) + scale * size * j,size,size)
             if (board[i][j][1] > 0) then
                 love.graphics.setColor(math.log(board[i][j][1],2)/5,math.log(board[i][j][1],2)/7,1-math.log(board[i][j][1],2)/30,1)
