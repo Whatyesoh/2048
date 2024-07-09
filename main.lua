@@ -1,3 +1,5 @@
+torch = require('torch')
+
 if arg[2] == "debug" then
     require("lldebugger").start()
   end
@@ -38,6 +40,7 @@ function restartGame()
     moving = 0
     timer = 0
     score = 0
+    successCount = 0
 end
 
 function moveLeft() 
@@ -49,6 +52,7 @@ function moveLeft()
                     board[i-1][j][1] = board[i][j][1]
                     board[i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
                 if (board[i-1][j][1] == board[i][j][1] and board[i][j][2] == 0 and board[i-1][j][2] == 0) then
                     board[i-1][j][2] = 1
@@ -56,6 +60,7 @@ function moveLeft()
                     score = score + board[i][j][1] * 2
                     board[i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
             end
         end
@@ -72,6 +77,7 @@ function moveRight()
                     board[5-i][j][1] = board[4-i][j][1]
                     board[4-i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
                 if (board[5-i][j][1] == board[4-i][j][1] and board[4-i][j][2] == 0 and board[5-i][j][2] == 0) then
                     board[5-i][j][2] = 1
@@ -79,6 +85,7 @@ function moveRight()
                     score = score + board[4-i][j][1] * 2
                     board[4-i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
             end
         end
@@ -95,6 +102,7 @@ function moveUp()
                     board[i][j-1][1] = board[i][j][1]
                     board[i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
                 if (board[i][j-1][1] == board[i][j][1] and board[i][j][2] == 0 and board[i][j-1][2] == 0) then
                     board[i][j-1][2] = 1
@@ -102,6 +110,7 @@ function moveUp()
                     score = score + board[i][j][1] * 2
                     board[i][j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
             end
         end
@@ -118,6 +127,7 @@ function moveDown()
                     board[i][5-j][1] = board[i][4-j][1]
                     board[i][4-j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
                 if (board[i][5-j][1] == board[i][4-j][1] and board[i][4-j][2] == 0 and board[i][5-j][2] == 0) then
                     board[i][5-j][2] = 1
@@ -125,6 +135,7 @@ function moveDown()
                     score = score + board[i][4-j][1] * 2
                     board[i][4-j][1] = 0
                     success = 1
+                    successCount = successCount + 1
                 end
             end
         end
@@ -184,7 +195,7 @@ function love.update(dt)
     end
     if (moving > 0) then
         timer = timer + dt
-        if (timer > 0) then
+        if (timer >= 0) then
             timer = 0
             if (moving == 1) then
                 moveLeft()
@@ -196,10 +207,16 @@ function love.update(dt)
                 moveDown()
             end
 
-            if (moving == 0) then
+            if (moving == 0 and successCount > 0) then
                 addRandom()
             end
+            if (successCount == 0) then
+                moving = math.random(1,4)
+            end
         end
+    else
+        successCount = 0
+        moving = love.math.random(2,3)
     end
 end
 
