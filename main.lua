@@ -21,6 +21,8 @@ function love.load()
     size = 70
     scale = 1.2
 
+    highScore = 0
+
     restartGame()
 end
 
@@ -36,7 +38,6 @@ function restartGame()
     moving = 0
     timer = 0
     score = 0
-    highScore = 0
 end
 
 function moveLeft() 
